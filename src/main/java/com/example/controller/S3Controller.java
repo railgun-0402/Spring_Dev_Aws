@@ -66,9 +66,9 @@ public class S3Controller {
 		ByteArrayResource resource = null;
 		
 		// オブジェクトの取得
-		try (InputStream is = s3Service.download(fileName)) {
+		try (InputStream inputStream = s3Service.download(fileName)) {
 			// ByteArrayResource生成
-			resource = new ByteArrayResource(is.readAllBytes());
+			resource = new ByteArrayResource(inputStream.readAllBytes());
 		} catch (IOException e) {
 			log.error("FileDownloadError", e);
 			return ResponseEntity.internalServerError().body(null);
