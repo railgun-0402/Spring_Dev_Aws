@@ -1,0 +1,23 @@
+# Spring
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  application:
+    name: aws-sample
+  config:
+    import: 'aws-parameterstore:' # パラメータストアから値を取得する設定
+    
+# Tomcat
+server:
+  port: 8009
+  servlet:
+    context-path: /aws-sample
+ 
+# AWS
+aws:
+  paramstore:
+    enabled: true
+    region: ap-northeast-1
+    prefix: /config
+    profileSeparator: _
+    failFast: true

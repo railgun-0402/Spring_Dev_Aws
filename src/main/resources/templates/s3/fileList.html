@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+	<!-- CSS --> 
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"> 
+	<!-- JS --> 
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}" defer></script> 
+	<title>FileList</title> 
+</head>
+<body>
+	<div class="container mt-5">
+		<div class="border-bottom mb-3">
+			<h1 class="h2">FileList</h1>
+		</div>
+		<!-- ファイル -->
+		<div>
+			<!-- 検索 -->
+			<form method="POST" th:action="@{/s3/search}" class="mb-3">
+				<label for="fileName">ファイル名:</label> <input type="text" name="fileName" />
+				<input type="submit" value="検索"/> 
+			</form>
+			<!-- 一覧表示 -->
+			<table class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr class="table-primary">
+						<th>File Name</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>					 
+					<tr th:each="item: ${fileList}">
+						<td th:text="${item.getFilename()}"></td>
+						<td><a class="btn btn-primary" th:href="@{'/s3/download/' + ${item.getFilename()}}">Download</a></td>
+					</tr> 
+				</tbody> 
+			</table>
+		</div>
+		<!-- ファイルアップロード -->
+		<div>
+			<form method="POST" th:action="@{/s3/upload}" enctype="multipart/form-data">
+				<input type="file" name="uploadFile" />
+				<input type="submit" value="アップロード"/>
+			</form> 
+		</div>
+	</div>
+</body>
+</html>

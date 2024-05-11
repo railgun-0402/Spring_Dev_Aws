@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Hello World</title>
+	</head>
+	
+	<body>
+		<h1>Hello World!!!</h1>
+		<p>AMI ID: [[${ec2Info.amiId}]]</p>
+		<p>HOST NAME: [[${ec2Info.hostname}]]</p>
+		<p>PUCLIC IPv4: [[${ec2Info.publicIpv4}]]</p>
+		<p>INSTANCE TYPE: [[${ec2Info.instanceType}]]</p>
+		<p>INSTANCE ID: [[${ec2Info.instanceId}]]</p>
+	</body>
+</html>
