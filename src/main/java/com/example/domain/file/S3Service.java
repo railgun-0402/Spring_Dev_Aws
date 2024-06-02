@@ -12,7 +12,9 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
@@ -32,6 +34,15 @@ public class S3Service {
 	
 	@Autowired
     private AmazonS3 amazonS3;
+	
+	private AmazonS3 getS3Client() {
+		System.out.println(s3Info.getBucketRegion());
+		System.out.println(DefaultAWSCredentialsProviderChain.getInstance());
+		return AmazonS3ClientBuilder.standard()
+				.withRegion(s3Info.getBucketRegion())
+				.withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
+				.build();
+	}
 	
 	@Autowired
 	public void setupResolver(ApplicationContext applicationContext,
@@ -82,5 +93,17 @@ public class S3Service {
 			log.error("S3FileDownloadError", e);
 		}                
 		return s3Object.getObjectContent();
+	}
+	
+	/** ファイル削除 */
+	public void delete(String fileName) {
+		try {
+			String bucketName = s3Info.getBucketName();
+			String key = fileName;
+			
+			getS3Client().deleteObject(bucketName, key);
+		} catch (Exception e) {
+			log.error("S3FileDeleteError", e);
+		}
 	}
 }

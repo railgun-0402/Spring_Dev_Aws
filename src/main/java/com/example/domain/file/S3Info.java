@@ -13,5 +13,8 @@ public class S3Info {
 	
 	@Value("${bucket.name}")
 	private String bucketName;
+	
+	@Value("${bucket.region}")
+	private String bucketRegion;
 
 }
